@@ -20,6 +20,11 @@ export default function Menu() {
             HOME
           </NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" aria-current="page" to="/shop">
+            SHOP
+          </NavLink>
+        </li>
 
         {!auth?.user ? (
           <>
@@ -47,9 +52,8 @@ export default function Menu() {
                 <li>
                   <NavLink
                     className="nav-link"
-                    to={`/dashboard/${
-                      auth?.user?.role === 1 ? "admin" : "user"
-                    }`}
+                    to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"
+                      }`}
                   >
                     Dashboard
                   </NavLink>

@@ -16,19 +16,19 @@ export const create = async (req, res) => {
     // validation
     switch (true) {
       case !name.trim():
-       return res.json({ error: "Name is required" });
+        return res.json({ error: "Name is required" });
       case !description.trim():
-       return res.json({ error: "Description is required" });
+        return res.json({ error: "Description is required" });
       case !price.trim():
-       return res.json({ error: "Price is required" });
+        return res.json({ error: "Price is required" });
       case !category.trim():
-       return res.json({ error: "Category is required" });
+        return res.json({ error: "Category is required" });
       case !quantity.trim():
-       return res.json({ error: "Quantity is required." });
+        return res.json({ error: "Quantity is required." });
       case !shipping.trim():
-       return res.json({ error: "Shipping is required" });
+        return res.json({ error: "Shipping is required" });
       case photo && photo.size > 1000000:
-       return res.json({ error: "Image should be less than 1MB in size" });
+        return res.json({ error: "Image should be less than 1MB in size" });
     }
     // create product | new Product makes a new product instance
     const product = new Product({ ...req.fields, slug: slugify(name) });
@@ -138,3 +138,20 @@ export const update = async (req, res) => {
     return res.status(400).json(err.message);
   }
 };
+
+export const filteredProducts = async (req, res) => {
+  try {
+    const { checked, radio } = req.body;
+    let args = {}; // [20, 39]
+    if (checked.length > 0) args.category = checked;
+    if (radio.length > 0) args.price = { $gte: radio[0], $lte: radio[1] };
+
+    console.log("args => ", args)
+
+    const products = await Product.find(args);
+    console.log('filtered products query =>', products.length)
+    res.json(products);
+  } catch (err) {
+    console.log(err)
+  }
+}

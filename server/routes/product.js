@@ -21,5 +21,7 @@ router.get("/product/:slug", read);
 router.get("/product/photo/:productId", photo);
 router.delete("/product/:productId", requireSignin, isAdmin, remove);
 router.put("/product/:productId", requireSignin, isAdmin, formidable(), update);
+router.post('/filtered-products', filteredProducts);
+
 
 export default router;
